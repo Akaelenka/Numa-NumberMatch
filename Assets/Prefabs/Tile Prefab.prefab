@@ -270,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd6f2d52ff329c34ab9916ed35406b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileComponent
+  _tileIndex: 0
   _isEnable: 0
   _tileButton: {fileID: 9154164588587927540}
   _enableSprite: {fileID: -6684430161380966744, guid: b1361fbfb4282fe44979313c246a1837, type: 3}

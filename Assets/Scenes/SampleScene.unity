@@ -3515,7 +3515,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 667583807}
-  - component: {fileID: 667583806}
   - component: {fileID: 667583808}
   m_Layer: 0
   m_Name: Gameplay Manager
@@ -3524,18 +3523,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &667583806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 667583805}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d5e0d2c6a85dab42964d953c6465b8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameplayManager
 --- !u!4 &667583807
 Transform:
   m_ObjectHideFlags: 0
@@ -3715,7 +3702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &720712126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8126,7 +8113,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1606941171}
-  - component: {fileID: 1606941170}
   - component: {fileID: 1606941172}
   m_Layer: 0
   m_Name: HUDs Manager
@@ -8135,19 +8121,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1606941170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1606941169}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e5afd542d1df7441a3ba0f3beecfc97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameplayHUD
-  _gameScrollView: {fileID: 283908949}
 --- !u!4 &1606941171
 Transform:
   m_ObjectHideFlags: 0
@@ -8540,7 +8513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1812276038
 RectTransform:
   m_ObjectHideFlags: 0

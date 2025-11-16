@@ -14,6 +14,6 @@ public class GameplayCheat : MonoBehaviour
 
     private void RemoveTilesInBlock()
     {
-        TileEM.RemoveTilesInColumn(int.Parse(CheatInputField.text));
+        TileNewEM.RemoveTilesInRow(int.Parse(CheatInputField.text));
     }
 }

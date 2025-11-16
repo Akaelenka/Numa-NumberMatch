@@ -23,6 +23,8 @@ public class GameplayNewHUD : MonoBehaviour
         TileNewEM.OnResetTile += ResetScrollView;
         TileNewEM.OnGenerateTileComponents += GenerateTileComponents;
         TileNewEM.OnDisableTile += DisableTileAtIndex;
+        TileNewEM.OnRemoveTilesInRow += RemoveTilesInRow;
+        TileNewEM.OnDeselectTile += DeselectButton;
     }
 
     public void ResetScrollView()
@@ -45,7 +47,10 @@ public class GameplayNewHUD : MonoBehaviour
             var tileComponent = tilePrefab.GetComponent<TileComponent>();
             tileComponent.SetIndex(i);
             tileComponent.SetValue(listValue[i]);
-            tileComponent.GetButton().onClick.AddListener(() => TileNewEM.SelectTileIndex(tileComponent.GetIndex()));
+            tileComponent.GetButton().onClick.AddListener(() =>
+            {
+                TileNewEM.SelectTileIndex(tileComponent.GetIndex());
+            });
 
             _tileList.Add(tileComponent);
         }
@@ -66,5 +71,21 @@ public class GameplayNewHUD : MonoBehaviour
     public void SetBlockerActive(bool isActive)
     {
         _blockerObject.SetActive(isActive);
+    }
+
+    private void RemoveTilesInRow(int startTile)
+    {
+        int column = 10;
+
+        for (int i = 0; i < column; i++)
+        {
+            Destroy(_tileList[startTile].gameObject);
+            _tileList.RemoveAt(startTile);
+        }
+    }
+
+    private void DeselectButton(int index)
+    {
+        _tileList[index].TurnToDeselectedButton();
     }
 }

@@ -14,10 +14,11 @@ public class TileComponent : MonoBehaviour
     private Sprite _enableSprite;
     [SerializeField]
     private Sprite _disableSprite;
-    [SerializeField] 
+    [SerializeField]
     private TMP_Text _tileText;
     [SerializeField]
     private string _tileValue;
+
 
     public void SetValue(int value)
     {
@@ -62,14 +63,8 @@ public class TileComponent : MonoBehaviour
         _isEnable = false;
     }
 
-
-    //#region Button Listeners
-    //private void OnButtonClicked()
-    //{
-    //    TileNewEM.SelectTileIndex(_tileIndex);
-
-    //    //TileEM.SelectTileValue(int.Parse(_tileValue));
-    //    //TileEM.SelectTileIndex(_tileIndex);
-    //}
-    //#endregion
+    public void TurnToDeselectedButton()
+    {
+        _tileButton.GetComponent<Image>().sprite = _enableSprite;
+    }
 }

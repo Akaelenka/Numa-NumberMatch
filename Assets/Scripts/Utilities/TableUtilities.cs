@@ -4,12 +4,14 @@ public class TableUtilities
 {
     public static int GetRow(int index, int columns)
     {
-        return (index - 1) / columns;
+        // Use zero-based indexing: row = index / columns
+        return index / columns;
     }
 
     public static int GetCol(int index, int columns)
     {
-        return (index - 1) % columns;
+        // Use zero-based indexing: col = index % columns
+        return index % columns;
     }
 
     //public static bool IsHorizontal(int a, int b, int columns)

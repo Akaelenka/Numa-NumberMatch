@@ -14,7 +14,8 @@ public class GameplayCore
 
     public GameplayCore() 
     {
-        TileNewEM.OnSelecteTileIndex += OnSelectTileIndex;
+        TileNewEM.OnSelectedTileIndex += OnSelectTileIndex;
+        TileNewEM.OnRemoveTilesInRow += OnRemoveTilesInRow;
     }
 
     public void ResetTiles()
@@ -106,6 +107,8 @@ public class GameplayCore
         TileNewEM.DisableTile(_prevousTileIndex);
         TileNewEM.DisableTile(_activeTileIndex);
 
+        CheckAndRemoveRow(_prevousTileIndex);
+        CheckAndRemoveRow(_activeTileIndex);
         ResetActiveTile();
 
         TileNewEM.FinishCheckMatchedTile();
@@ -119,9 +122,41 @@ public class GameplayCore
         _prevousTileValue = 0;
     }
 
+    private void CheckAndRemoveRow(int startTile)
+    {
+        int columns = 10; // TODO: Make this dynamic based on the table configuration
+        int colIndex = TableUtilities.GetRow(startTile, columns);
+
+        int startColIndex = colIndex * columns;
+
+        bool isColumnFull = true;
+        for (int i = 0; i < columns; i++)
+        {
+            Debug.Log($"Checking tile at index: {i + startColIndex} with value: {ListValue[i + startColIndex]}.");
+
+            if (ListValue[i + startColIndex] != 0)
+            {
+                isColumnFull = false;
+                break;
+            }
+        }
+
+        if (isColumnFull)
+        {
+            TileNewEM.RemoveTilesInRow(startColIndex);
+        }
+    }
+
     #region EventHandlers
     private void OnSelectTileIndex(int index)
     {
+        if (_activeTileIndex == index)
+        {
+            TileNewEM.DeselectTile(index);
+            ResetActiveTile();
+            return; 
+        }
+
         if (_activeTileValue != 0)
         {
             _prevousTileValue = _activeTileValue;
@@ -139,6 +174,16 @@ public class GameplayCore
         {
             Debug.Log("Tile is matched.");
             TileNewEM.GetTileMatched();
+        }
+    }
+
+    private void OnRemoveTilesInRow(int startTile)
+    {
+        int column = 10;
+
+        for (int i = 0; i < column; i++)
+        {
+            ListValue.RemoveAt(startTile);
         }
     }
     #endregion
