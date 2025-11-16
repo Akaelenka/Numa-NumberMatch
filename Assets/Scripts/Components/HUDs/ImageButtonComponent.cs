@@ -1,7 +1,8 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class ImageButtonComponent : MonoBehaviour
 {
     [SerializeField] 
@@ -15,10 +16,15 @@ public class ImageButtonComponent : MonoBehaviour
     [SerializeField]
     private Sprite _disableSprite;
 
-    private void Update()
+    private void Awake()
     {
-        UpdateButton();
+        Assert.IsNotNull(_button, $"[{gameObject.name}] Button is not assigned");
     }
+
+    //private void Update()
+    //{
+    //    UpdateButton();
+    //}
 
     public void SetEnable(bool isEnable)
     {
@@ -27,13 +33,6 @@ public class ImageButtonComponent : MonoBehaviour
 
     private void UpdateButton()
     {
-        // Check if button reference is assigned
-        if (_button == null)
-        {
-            Debug.LogError($"[{gameObject.name}] Button reference is missing.");
-            return;
-        }
-
         // Update button sprite based on the enable state
         if (_isEnable)
         {

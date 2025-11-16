@@ -19,15 +19,13 @@ public class TileComponent : MonoBehaviour
     [SerializeField]
     private string _tileValue;
 
-    public void SetValue(string value)
+    public void SetValue(int value)
     {
         _tileButton.GetComponent<Image>().sprite = _enableSprite;
         _tileButton.interactable = true;
-        _tileValue = value;
-        _tileText.text = value;
+        _tileValue = value.ToString();
+        _tileText.text = value.ToString();
         _isEnable = true;
-
-        _tileButton.onClick.AddListener(OnButtonClicked);
     }
 
     public void SetIndex(int index) 
@@ -45,11 +43,16 @@ public class TileComponent : MonoBehaviour
         return _tileIndex;
     }
 
+    public Button GetButton() 
+    {
+        return _tileButton;
+    }
+
     public bool IsEnable() 
     {
         return _isEnable;
     }
-
+    
     public void DisableTile() 
     {
         _tileButton.GetComponent<Image>().sprite = _disableSprite;
@@ -60,11 +63,13 @@ public class TileComponent : MonoBehaviour
     }
 
 
-    #region Button Listeners
-    private void OnButtonClicked()
-    {
-        TileEM.SelectTileValue(int.Parse(_tileValue));
-        TileEM.SelectTileIndex(_tileIndex);
-    }
-    #endregion
+    //#region Button Listeners
+    //private void OnButtonClicked()
+    //{
+    //    TileNewEM.SelectTileIndex(_tileIndex);
+
+    //    //TileEM.SelectTileValue(int.Parse(_tileValue));
+    //    //TileEM.SelectTileIndex(_tileIndex);
+    //}
+    //#endregion
 }

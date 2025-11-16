@@ -2,8 +2,9 @@ using UnityEngine;
 using System;  
 using TMPro;
 using NumaModels;
+using NUnit.Framework;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class QuoteComponent : MonoBehaviour
 {
     [SerializeField]
@@ -18,6 +19,14 @@ public class QuoteComponent : MonoBehaviour
     private DateTime _currentDate = DateTime.Now;
     private int _currentIndex;
 
+
+    private void Awake()
+    {
+        Assert.IsNotNull(_quoteText, $"[{gameObject.name}] Quote Text is not assigned");
+        Assert.IsNotNull(_quoteDB, $"[{gameObject.name}] QuoteDB is not assigned");
+        Assert.AreNotEqual(_quoteDB.Length == 0, $"[{gameObject.name}] QuoteDB is not assigned");
+    }
+
     private void Update()
     {
         TimeSpan minutesDifference = DateTime.Now - _currentDate;
@@ -30,18 +39,6 @@ public class QuoteComponent : MonoBehaviour
 
     private void GetRandomQuote()
     {
-        // Check if the QuoteDB is null or empty
-        if (_quoteDB == null)
-        {
-            Debug.LogError($"[{gameObject.name}] QuoteDB is not assigned");
-            return;
-        }
-        if (_quoteDB.Length == 0)
-        {
-            Debug.LogError($"[{gameObject.name}] QuoteDB has no quotes");
-            return;
-        }
-
         // Add index or restart to zero
         _currentIndex += 1;
         if (_currentIndex >= _quoteDB.Length)

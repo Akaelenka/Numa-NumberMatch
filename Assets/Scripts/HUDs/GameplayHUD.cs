@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 //[ExecuteInEditMode] // TODO: For testing purposes only, remove later
 public class GameplayHUD : MonoBehaviour
@@ -52,7 +51,7 @@ public class GameplayHUD : MonoBehaviour
             TileComponent tileComponent = child.GetComponent<TileComponent>();
             if (tileComponent != null && i < tileValues.Count)
             {
-                tileComponent.SetValue(tileValues[i].ToString());
+                tileComponent.SetValue(tileValues[i]);
             }
         }
 

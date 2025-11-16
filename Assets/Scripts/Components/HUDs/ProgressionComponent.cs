@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using NumaModels;
+using NUnit.Framework;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class ProgressionComponent : MonoBehaviour
 {
     [SerializeField]
@@ -16,10 +17,15 @@ public class ProgressionComponent : MonoBehaviour
     [SerializeField]
     private Image _progressionImage;
 
-    private void Update()
+    private void Awake()
     {
-        GetProgression();
+        Assert.IsNotNull(_progressionImage, $"[{gameObject.name}] Progression image is not assigned");
     }
+
+    //private void Update()
+    //{
+    //    GetProgression();
+    //}
 
     public void SetProgression(ProgressionComponentModel progressionValue)
     {
@@ -37,12 +43,6 @@ public class ProgressionComponent : MonoBehaviour
 
     private void GetProgression()
     {
-        // Check if progression image is not assign
-        if (_progressionImage == null)
-        {
-            Debug.LogError($"[{gameObject.name}] Progression image is not assigned");
-            return;
-        }
         // Check if min value is greater or equal to max value
         if (_minValue >= _maxValue)
         {
