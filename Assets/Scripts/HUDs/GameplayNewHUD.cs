@@ -29,8 +29,8 @@ public class GameplayNewHUD : MonoBehaviour
         TileNewEM.OnDisableTile += DisableTileAtIndex;
         TileNewEM.OnRemoveTilesInRow += RemoveTilesInRow;
         TileNewEM.OnDeselectTile += DeselectButton;
-
         TileNewEM.OnResetTileIndex += ResetIndex;
+        TileNewEM.OnSetBlockerActive += SetBlockerActive;
 
         _addTilesButton.onClick.AddListener(AddNewTiles);
     }

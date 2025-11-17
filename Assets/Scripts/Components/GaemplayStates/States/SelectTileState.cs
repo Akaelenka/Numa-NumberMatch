@@ -21,6 +21,11 @@ public class SelectTileState : GameplayState
     public override void UpdateState()
     {
         Debug.Log("SelectTileState UpdateState");
+
+        if (Core.IsReachedTargetScore)
+        {
+            NextState = EGameplayState.EndGame;
+        }
     }
 
     public override void FinishState()

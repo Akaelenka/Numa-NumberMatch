@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameplayCore
 {
-    public List<int> ListValue;
+    public bool IsReachedTargetScore = false;
 
     private int _prevousTileValue;
     private int _activeTileValue;
@@ -12,27 +12,32 @@ public class GameplayCore
     private int _activeTileIndex;
 
     private List<int> _listDestroyQueue = new List<int>();
+    private List<int> _listValue;
 
-    public GameplayCore() 
+    public GameplayCore()
     {
         TileNewEM.OnSelectedTileIndex += OnSelectTileIndex;
         TileNewEM.OnRemoveTilesInRow += OnRemoveTilesInRow;
         TileNewEM.OnCallAddNewTiles += AddNewTiles;
+
+        ScoreEM.OnReachTargetScore += OnReachTargetScore;
     }
 
     public void ResetTiles()
     {
+        IsReachedTargetScore = false;
         ResetActiveTile();
 
         TileNewEM.ResetTile();
+        ScoreEM.ResetScore();
     }
 
     public void GenerateTiles(int totalTiles)
     {
-        ListValue = new List<int>();
-        ListValue.AddRange(CreateAndShuffleNewTiles(totalTiles));
+        _listValue = new List<int>();
+        _listValue.AddRange(CreateAndShuffleNewTiles(totalTiles));
 
-        TileNewEM.GenerateTileComponents(ListValue);
+        TileNewEM.GenerateTileComponents(_listValue);
     }
 
     public void AddNewTiles(int totalTiles)
@@ -40,7 +45,7 @@ public class GameplayCore
         List<int> addedList = new List<int>();
         addedList.AddRange(CreateAndShuffleNewTiles(totalTiles));
 
-        ListValue.AddRange(addedList);
+        _listValue.AddRange(addedList);
 
         TileNewEM.AddTileComponents(addedList);
     }
@@ -115,22 +120,25 @@ public class GameplayCore
 
         // Walk from a to b, but skip the endpoints
         int current = currTileIndex + step;
+        int score = 1;
         while (current != prevTileIndex)
         {
-            if (ListValue[current] != 0)   // occupied tile found
+            if (_listValue[current] != 0)   // occupied tile found
             {
                 TileNewEM.FinishCheckMatchedTile();
                 return;
             }
 
             current += step;
+            score++;
         }
 
-        ListValue[_prevousTileIndex] = 0;
-        ListValue[_activeTileIndex] = 0;
+        _listValue[_prevousTileIndex] = 0;
+        _listValue[_activeTileIndex] = 0;
 
         TileNewEM.DisableTile(_prevousTileIndex);
         TileNewEM.DisableTile(_activeTileIndex);
+        ScoreEM.AddScore(score);
 
         CheckAndRemoveRow(_prevousTileIndex);
         CheckAndRemoveRow(_activeTileIndex);
@@ -168,9 +176,9 @@ public class GameplayCore
         bool isColumnFull = true;
         for (int i = 0; i < columns; i++)
         {
-            Debug.Log($"Checking tile at index: {i + startColIndex} with value: {ListValue[i + startColIndex]}.");
+            Debug.Log($"Checking tile at index: {i + startColIndex} with value: {_listValue[i + startColIndex]}.");
 
-            if (ListValue[i + startColIndex] != 0)
+            if (_listValue[i + startColIndex] != 0)
             {
                 isColumnFull = false;
                 break;
@@ -200,7 +208,7 @@ public class GameplayCore
         }
 
         _activeTileIndex = index;
-        _activeTileValue = ListValue[index];
+        _activeTileValue = _listValue[index];
 
         Debug.Log($"[{this.GetType().Name}] Active tile index: {_activeTileIndex} with value: {_activeTileValue}.");
         Debug.Log($"[{this.GetType().Name}] Previous tile index: {_prevousTileIndex} with value: {_prevousTileValue}.");
@@ -219,9 +227,16 @@ public class GameplayCore
 
         for (int i = 0; i < column; i++)
         {
-            ListValue.RemoveAt(startTile);
-            Debug.Log($"Remove {startTile}, value {ListValue[startTile]} and count {ListValue.Count}");
+            _listValue.RemoveAt(startTile);
+            Debug.Log($"Remove {startTile}, value {_listValue[startTile]} and count {_listValue.Count}");
         }
+
+        ScoreEM.AddScore(column);
+    }
+
+    private void OnReachTargetScore()
+    {
+        IsReachedTargetScore = true;
     }
     #endregion
 }

@@ -1,3 +1,4 @@
+using UnityEngine;
 using NumaModels;
 
 public class EndGameState : GameplayState
@@ -9,10 +10,12 @@ public class EndGameState : GameplayState
 
     public override void StartState()
     {
+        Debug.Log("EndGameState StartState");
     }
 
     public override void UpdateState()
     {
+        Debug.Log("EndGameState UpdateState");
     }
 
     public override void FinishState()
