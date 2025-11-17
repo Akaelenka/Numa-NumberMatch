@@ -21,10 +21,20 @@ public class ImageButtonComponent : MonoBehaviour
         Assert.IsNotNull(_button, $"[{gameObject.name}] Button is not assigned");
     }
 
-    //private void Update()
-    //{
-    //    UpdateButton();
-    //}
+    private void Update()
+    {
+        UpdateButton();
+    }
+
+    public string GetName() 
+    { 
+        return _name; 
+    }
+
+    public Button GetButton()
+    {
+        return _button; 
+    }
 
     public void SetEnable(bool isEnable)
     {
