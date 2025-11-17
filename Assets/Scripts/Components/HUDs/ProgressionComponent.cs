@@ -66,4 +66,9 @@ public class ProgressionComponent : MonoBehaviour
         float fillAmount = currentOffset / maxOffset;
         _progressionImage.fillAmount = fillAmount;
     }
+
+    public string GetName()
+    {
+        return _name;
+    }
 }

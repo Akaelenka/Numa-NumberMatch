@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -12,10 +11,13 @@ public class GameplayCore
     private int _prevousTileIndex;
     private int _activeTileIndex;
 
+    private List<int> _listDestroyQueue = new List<int>();
+
     public GameplayCore() 
     {
         TileNewEM.OnSelectedTileIndex += OnSelectTileIndex;
         TileNewEM.OnRemoveTilesInRow += OnRemoveTilesInRow;
+        TileNewEM.OnCallAddNewTiles += AddNewTiles;
     }
 
     public void ResetTiles()
@@ -28,26 +30,44 @@ public class GameplayCore
     public void GenerateTiles(int totalTiles)
     {
         ListValue = new List<int>();
+        ListValue.AddRange(CreateAndShuffleNewTiles(totalTiles));
+
+        TileNewEM.GenerateTileComponents(ListValue);
+    }
+
+    public void AddNewTiles(int totalTiles)
+    {
+        List<int> addedList = new List<int>();
+        addedList.AddRange(CreateAndShuffleNewTiles(totalTiles));
+
+        ListValue.AddRange(addedList);
+
+        TileNewEM.AddTileComponents(addedList);
+    }
+
+    private List<int> CreateAndShuffleNewTiles(int totalTiles)
+    {
+        List<int> newTiles = new List<int>();
 
         // Init to random half of total tiles
         System.Random rnd = new System.Random();
-        for (int i = 0; i < totalTiles/2; i++)
+        for (int i = 0; i < totalTiles / 2; i++)
         {
             int value = rnd.Next(1, 10);
-            ListValue.Add(value);
+            newTiles.Add(value);
         }
 
         // Duplicate and invert values to create pairs
-        for (int i = 0;i < totalTiles/2; i++)
+        for (int i = 0; i < totalTiles / 2; i++)
         {
             int value = rnd.Next(0, 2);
-            ListValue.Add(value == 0 ? ListValue[i] : 10 - ListValue[i]);
+            newTiles.Add(value == 0 ? newTiles[i] : 10 - newTiles[i]);
         }
 
         // Shuffle the list
-        ListValue = ListValue.OrderBy(x => rnd.Next()).ToList();
+        newTiles = newTiles.OrderBy(x => rnd.Next()).ToList();
 
-        TileNewEM.GenerateTileComponents(ListValue);
+        return newTiles;
     }
 
     public void CheckMatchedTiles()
@@ -81,6 +101,11 @@ public class GameplayCore
         {
             step = (prevTileIndex > currTileIndex) ? (columns - 1) : -(columns - 1);
         }
+        // Find different row
+        else if (Mathf.Abs(TableUtilities.GetRow(currTileIndex, columns) - TableUtilities.GetRow(prevTileIndex, columns)) == 1)
+        {
+            step = (prevTileIndex > currTileIndex) ? 1 : -1;
+        }
         // Not a straight line
         else
         {
@@ -109,7 +134,18 @@ public class GameplayCore
 
         CheckAndRemoveRow(_prevousTileIndex);
         CheckAndRemoveRow(_activeTileIndex);
-        ResetActiveTile();
+        ResetActiveTile();  
+
+        if (_listDestroyQueue.Count > 0)
+        {
+            
+            _listDestroyQueue.Distinct().OrderByDescending(x => x).ToList();
+            foreach (int startTile in _listDestroyQueue)
+            {
+                TileNewEM.RemoveTilesInRow(startTile);
+            }
+            _listDestroyQueue.Clear();
+        }
 
         TileNewEM.FinishCheckMatchedTile();
     }
@@ -143,7 +179,7 @@ public class GameplayCore
 
         if (isColumnFull)
         {
-            TileNewEM.RemoveTilesInRow(startColIndex);
+            _listDestroyQueue.Add(startColIndex);
         }
     }
 
@@ -184,6 +220,7 @@ public class GameplayCore
         for (int i = 0; i < column; i++)
         {
             ListValue.RemoveAt(startTile);
+            Debug.Log($"Remove {startTile}, value {ListValue[startTile]} and count {ListValue.Count}");
         }
     }
     #endregion

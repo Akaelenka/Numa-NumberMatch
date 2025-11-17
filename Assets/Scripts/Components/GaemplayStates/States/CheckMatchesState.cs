@@ -26,6 +26,7 @@ public class CheckMatchesState : GameplayState
 
     public override void FinishState()
     {
+        TileNewEM.ResetTileIndex();
     }
 
     public override EGameplayState GetNextState() 

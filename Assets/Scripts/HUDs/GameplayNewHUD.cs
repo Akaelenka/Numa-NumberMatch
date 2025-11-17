@@ -7,6 +7,8 @@ public class GameplayNewHUD : MonoBehaviour
 {
     [SerializeField]
     private ScrollRect _gameScrollView;
+    [SerializeField] 
+    private Button _addTilesButton;
     [SerializeField]
     private GameObject _tilePrefab;
     [SerializeField]
@@ -19,12 +21,18 @@ public class GameplayNewHUD : MonoBehaviour
         Assert.IsNotNull(_gameScrollView, $"[{gameObject.name}] ScrollView is not assigned.");
         Assert.IsNotNull(_tilePrefab, $"[{gameObject.name}] TilePrefab is not assigned.");
         Assert.IsNotNull(_blockerObject, $"[{gameObject.name}] BlockerObject is not assigned.");
+        Assert.IsNotNull(_addTilesButton, $"[{gameObject.name}] AddTilesButton is not assigned.");
 
         TileNewEM.OnResetTile += ResetScrollView;
         TileNewEM.OnGenerateTileComponents += GenerateTileComponents;
+        TileNewEM.OnAddTileComponents += AddTileComponents;
         TileNewEM.OnDisableTile += DisableTileAtIndex;
         TileNewEM.OnRemoveTilesInRow += RemoveTilesInRow;
         TileNewEM.OnDeselectTile += DeselectButton;
+
+        TileNewEM.OnResetTileIndex += ResetIndex;
+
+        _addTilesButton.onClick.AddListener(AddNewTiles);
     }
 
     public void ResetScrollView()
@@ -40,15 +48,28 @@ public class GameplayNewHUD : MonoBehaviour
     {
         _tileList = new List<TileComponent>();
 
+        AddTileComponents(listValue);
+    }
+
+    public void AddTileComponents(List<int> listValue)
+    {
         for (int i = 0; i < listValue.Count; i++)
         {
             GameObject tilePrefab = Instantiate(_tilePrefab, _gameScrollView.content);
 
             var tileComponent = tilePrefab.GetComponent<TileComponent>();
-            tileComponent.SetIndex(i);
+            tileComponent.SetIndex(_tileList.Count);
             tileComponent.SetValue(listValue[i]);
             tileComponent.GetButton().onClick.AddListener(() =>
             {
+                Debug.Log($"[{this.GetType().Name}] Active tile index: {tileComponent.GetIndex()} with value: {tileComponent.GetValue()}.");
+
+                foreach (var tile in _tileList)
+                {
+                    tile.ToggleColorButton(false);
+                }
+                tileComponent.ToggleColorButton(true);
+
                 TileNewEM.SelectTileIndex(tileComponent.GetIndex());
             });
 
@@ -84,8 +105,23 @@ public class GameplayNewHUD : MonoBehaviour
         }
     }
 
+    private void ResetIndex()
+    {
+        for (int i = 0; i < _tileList.Count; i++)
+        {
+            _tileList[i].SetIndex(i);
+        }
+    }
+
     private void DeselectButton(int index)
     {
-        _tileList[index].TurnToDeselectedButton();
+        _tileList[index].ToggleColorButton(false);
     }
+
+    #region Listeners
+    private void AddNewTiles()
+    {
+        TileNewEM.CallAddNewTiles(30); // TODO: put it on game settings
+    }
+    #endregion
 }

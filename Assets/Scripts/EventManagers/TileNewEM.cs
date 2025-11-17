@@ -5,6 +5,7 @@ public class TileNewEM
 {
     public static event Action OnResetTile;
     public static event Action<List<int>> OnGenerateTileComponents;
+    public static event Action<List<int>> OnAddTileComponents;
     public static event Action<int> OnSelectedTileIndex;
     public static event Action OnTileMatched;
     public static event Action<int> OnDisableTile;
@@ -13,15 +14,23 @@ public class TileNewEM
     public static event Action<int> OnDeselectTile;
 
     public static event Action<bool> OnSetBlockerActive;
+    public static event Action<int> OnCallAddNewTiles;
+
+    public static event Action OnResetTileIndex;
 
     public static void ResetTile()
     {
         OnResetTile?.Invoke();
     }
 
-    public static void GenerateTileComponents(List<int> tileComponents)
+    public static void GenerateTileComponents(List<int> valueList)
     {
-        OnGenerateTileComponents?.Invoke(tileComponents);
+        OnGenerateTileComponents?.Invoke(valueList);
+    }
+
+    public static void AddTileComponents(List<int> valueList)
+    {
+        OnAddTileComponents?.Invoke(valueList);
     }
 
     public static void SelectTileIndex(int index)
@@ -57,5 +66,15 @@ public class TileNewEM
     public static void SetBlockerActive(bool isActive)
     {
         OnSetBlockerActive?.Invoke(isActive);
+    }
+
+    public static void ResetTileIndex()
+    {
+        OnResetTileIndex?.Invoke();
+    }
+
+    public static void CallAddNewTiles(int value)
+    {
+        OnCallAddNewTiles?.Invoke(value);
     }
 }

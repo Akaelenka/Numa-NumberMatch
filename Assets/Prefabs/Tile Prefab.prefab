@@ -237,8 +237,8 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 1, g: 0.8039216, b: 0.1254902, a: 1}
-    m_SelectedColor: {r: 1, g: 0.8039216, b: 0.1254902, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -275,5 +275,6 @@ MonoBehaviour:
   _tileButton: {fileID: 9154164588587927540}
   _enableSprite: {fileID: -6684430161380966744, guid: b1361fbfb4282fe44979313c246a1837, type: 3}
   _disableSprite: {fileID: -8488197977077727449, guid: 950490637ae021e44a53ba492d61585e, type: 3}
+  _highlightSprite: {fileID: -1584546812446045431, guid: 4c221b49636af3140ad9bb5ce417b18e, type: 3}
   _tileText: {fileID: 6532808495940357701}
   _tileValue: 
