@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using NumaModels;
-using NUnit.Framework;
+using UnityEngine.Assertions;
+
 
 //[ExecuteInEditMode]
 public class ProgressionComponent : MonoBehaviour

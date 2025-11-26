@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using NumaModels;
-using NUnit.Framework;
+using UnityEngine.Assertions;
 
 public class ScoreHUD : MonoBehaviour
 {
@@ -27,7 +27,7 @@ public class ScoreHUD : MonoBehaviour
 
     private void ResetScore()
     {
-        _currentTargetScore = 300; // TODO: Get from GameplayCore or Settings
+        _currentTargetScore = GameSettingsUtilities.TotalScore;
         _currentScore = 0;
 
         _targetCoreText.text = _currentTargetScore.ToString();

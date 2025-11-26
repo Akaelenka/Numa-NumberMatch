@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using NUnit.Framework;
+using UnityEngine.Assertions;
 
 public class GameplayNewHUD : MonoBehaviour
 {
@@ -62,8 +62,6 @@ public class GameplayNewHUD : MonoBehaviour
             tileComponent.SetValue(listValue[i]);
             tileComponent.GetButton().onClick.AddListener(() =>
             {
-                Debug.Log($"[{this.GetType().Name}] Active tile index: {tileComponent.GetIndex()} with value: {tileComponent.GetValue()}.");
-
                 foreach (var tile in _tileList)
                 {
                     tile.ToggleColorButton(false);
@@ -72,6 +70,11 @@ public class GameplayNewHUD : MonoBehaviour
 
                 TileNewEM.SelectTileIndex(tileComponent.GetIndex());
             });
+
+            if (tileComponent.GetValue() == 0) 
+            {
+                tileComponent.DisableTile();
+            }
 
             _tileList.Add(tileComponent);
         }
@@ -96,7 +99,7 @@ public class GameplayNewHUD : MonoBehaviour
 
     private void RemoveTilesInRow(int startTile)
     {
-        int column = 10;
+        int column = GameSettingsUtilities.TotalColumn;
 
         for (int i = 0; i < column; i++)
         {
@@ -121,7 +124,7 @@ public class GameplayNewHUD : MonoBehaviour
     #region Listeners
     private void AddNewTiles()
     {
-        TileNewEM.CallAddNewTiles(30); // TODO: put it on game settings
+        TileNewEM.CallAddNewTiles(GameSettingsUtilities.TotalAddedTile);
     }
     #endregion
 }

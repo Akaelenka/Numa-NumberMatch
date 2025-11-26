@@ -16,6 +16,13 @@ public class PanelStateManager : StateManager<EPanelType>
         States.Add(EPanelType.Pause, new PausePanelState(EPanelType.Pause));
         States.Add(EPanelType.EndGame, new EndGamePanelState(EPanelType.EndGame));
 
-        CurrentState = States[EPanelType.Welcome];
+        if (GameSettingsUtilities.IsTesting) // TODO: Change into # or preprocessor
+        {
+            CurrentState = States[EPanelType.Gameplay];
+        }
+        else
+        {
+            CurrentState = States[EPanelType.Welcome];
+        }
     }
 }

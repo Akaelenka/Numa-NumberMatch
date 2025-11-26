@@ -1,5 +1,5 @@
 using NumaModels;
-using NUnit.Framework;
+using UnityEngine.Assertions;
 using UnityEngine;
 
 public class LoadingPanelHUD : MonoBehaviour
@@ -7,7 +7,7 @@ public class LoadingPanelHUD : MonoBehaviour
     [SerializeField]
     private ProgressionComponent _loadingProgression;
 
-    private int MaxLoadingValue = 1000;
+    private int MaxLoadingValue = 150;
 
     private void Awake()
     {

@@ -14,7 +14,7 @@ public class PrepareGameState : GameplayState
         NextState = StateKey;
 
         Core.ResetTiles();
-        Core.GenerateTiles(90);
+        Core.GenerateTiles(GameSettingsUtilities.TotalGeneratedTile);
 
         NextState = EGameplayState.SelectTile;
     }

@@ -4509,7 +4509,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 88, y: 88}
+  m_CellSize: {x: 109, y: 109}
   m_Spacing: {x: -4, y: -4}
   m_Constraint: 0
   m_ConstraintCount: 2

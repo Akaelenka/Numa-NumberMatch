@@ -2,7 +2,7 @@ using UnityEngine;
 using System;  
 using TMPro;
 using NumaModels;
-using NUnit.Framework;
+using UnityEngine.Assertions;
 
 //[ExecuteInEditMode]
 public class QuoteComponent : MonoBehaviour
@@ -24,7 +24,7 @@ public class QuoteComponent : MonoBehaviour
     {
         Assert.IsNotNull(_quoteText, $"[{gameObject.name}] Quote Text is not assigned");
         Assert.IsNotNull(_quoteDB, $"[{gameObject.name}] QuoteDB is not assigned");
-        Assert.AreNotEqual(_quoteDB.Length == 0, $"[{gameObject.name}] QuoteDB is not assigned");
+        Assert.AreNotEqual(0, _quoteDB.Length, $"[{gameObject.name}] QuoteDB are empty");
     }
 
     private void Update()

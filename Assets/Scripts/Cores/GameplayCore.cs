@@ -35,7 +35,14 @@ public class GameplayCore
     public void GenerateTiles(int totalTiles)
     {
         _listValue = new List<int>();
-        _listValue.AddRange(CreateAndShuffleNewTiles(totalTiles));
+        if (GameSettingsUtilities.IsTesting) // TODO: Change using #
+        {
+            _listValue.AddRange(GameSettingsUtilities.GetTestValue());
+        }
+        else
+        {
+            _listValue.AddRange(CreateAndShuffleNewTiles(totalTiles));
+        }
 
         TileNewEM.GenerateTileComponents(_listValue);
     }
@@ -43,7 +50,14 @@ public class GameplayCore
     public void AddNewTiles(int totalTiles)
     {
         List<int> addedList = new List<int>();
-        addedList.AddRange(CreateAndShuffleNewTiles(totalTiles));
+        if (GameSettingsUtilities.IsTesting) // TODO: Change using #
+        {
+            addedList.AddRange(GameSettingsUtilities.GetTestValue());
+        }
+        else
+        {
+            addedList.AddRange(CreateAndShuffleNewTiles(totalTiles));
+        }
 
         _listValue.AddRange(addedList);
 
@@ -77,7 +91,7 @@ public class GameplayCore
 
     public void CheckMatchedTiles()
     {
-        int columns = 10; // TODO: Make this dynamic based on the table configuration
+        int columns = GameSettingsUtilities.TotalColumn;
 
         int prevTileIndex = _prevousTileIndex;
         int currTileIndex = _activeTileIndex;
@@ -146,8 +160,8 @@ public class GameplayCore
 
         if (_listDestroyQueue.Count > 0)
         {
-            
-            _listDestroyQueue.Distinct().OrderByDescending(x => x).ToList();
+
+            _listDestroyQueue = _listDestroyQueue.Distinct().OrderByDescending(x => x).ToList();
             foreach (int startTile in _listDestroyQueue)
             {
                 TileNewEM.RemoveTilesInRow(startTile);
@@ -168,7 +182,7 @@ public class GameplayCore
 
     private void CheckAndRemoveRow(int startTile)
     {
-        int columns = 10; // TODO: Make this dynamic based on the table configuration
+        int columns = GameSettingsUtilities.TotalColumn;
         int colIndex = TableUtilities.GetRow(startTile, columns);
 
         int startColIndex = colIndex * columns;
@@ -223,15 +237,16 @@ public class GameplayCore
 
     private void OnRemoveTilesInRow(int startTile)
     {
-        int column = 10;
+        int column = GameSettingsUtilities.TotalColumn;
+        int removeCount = Mathf.Min(column, _listValue.Count - startTile);
 
-        for (int i = 0; i < column; i++)
-        {
-            _listValue.RemoveAt(startTile);
-            Debug.Log($"Remove {startTile}, value {_listValue[startTile]} and count {_listValue.Count}");
-        }
+        Debug.Log($"Before removal: count {_listValue.Count}, removing {removeCount} tiles starting at {startTile}.");
 
-        ScoreEM.AddScore(column);
+        _listValue.RemoveRange(startTile, removeCount);
+
+        Debug.Log($"After removal: count {_listValue.Count}.");
+
+        ScoreEM.AddScore(GameSettingsUtilities.TotalStrikeScore);
     }
 
     private void OnReachTargetScore()
