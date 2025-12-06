@@ -8,7 +8,9 @@ public class GameplayPanelHUD : MonoBehaviour
     [SerializeField]
     private TMP_Text _limitAddTilesText;
     [SerializeField]
-    private Button _addTilesButton;
+    private Button _addTilesButton; // TODO: move the gameplay new hud for add tiles button here
+    [SerializeField]
+    private Button _backButton;
 
     private const int LimitHardcode = 5; // TODO: change it later with proper
     private int _limitAddTiles; 
@@ -17,9 +19,12 @@ public class GameplayPanelHUD : MonoBehaviour
     {
         Assert.IsNotNull(_limitAddTilesText, $"[{gameObject.name}] LimitAddTilesText is not assigned.");
         Assert.IsNotNull(_addTilesButton, $"[{gameObject.name}] AddTilesButton is not assigned.");
+        Assert.IsNotNull(_backButton, $"[{gameObject.name}] BackButton is not assigned.");
 
         TileNewEM.OnResetTile += ResetLimit;
         TileNewEM.OnCallAddNewTiles += ReduceLimit;
+
+        _backButton.onClick.AddListener(BackToMainMenu);
     }
 
 
@@ -49,5 +54,10 @@ public class GameplayPanelHUD : MonoBehaviour
         {
             _addTilesButton.interactable = true;
         }
+    }
+
+    private void BackToMainMenu()
+    {
+        PanelEM.QuitGame();
     }
 }

@@ -5,6 +5,7 @@ public class GameplayPanelState : PanelState
     public GameplayPanelState(EPanelType stateKey) : base(stateKey)
     {
         PanelEM.OnFinishGame += FinishGame;
+        PanelEM.OnQuitGame += QuitGame;
     }
 
     public override void StartState()
@@ -30,5 +31,10 @@ public class GameplayPanelState : PanelState
     private void FinishGame() 
     {
         NextState = EPanelType.EndGame;
+    }
+
+    private void QuitGame()
+    {
+        NextState = EPanelType.MainMenu;
     }
 }

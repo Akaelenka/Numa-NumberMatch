@@ -8,6 +8,8 @@ public class SelectTileState : GameplayState
         Core = core;
 
         TileNewEM.OnTileMatched += OnTileMatched;
+
+        PanelEM.OnQuitGame += OnBackToMainMenu;
     }
 
     public override void StartState()
@@ -26,6 +28,12 @@ public class SelectTileState : GameplayState
         {
             NextState = EGameplayState.EndGame;
         }
+        if (Core.IsBackToMainMenu)
+        {
+            NextState = EGameplayState.Idle;
+
+            Core.IsBackToMainMenu = false;
+        }
     }
 
     public override void FinishState()
@@ -43,5 +51,10 @@ public class SelectTileState : GameplayState
     private void OnTileMatched()
     {
         NextState = EGameplayState.CheckMatches;
+    }
+
+    private void OnBackToMainMenu()
+    {
+        Core.IsBackToMainMenu = true;
     }
 }

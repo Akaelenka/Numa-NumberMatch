@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameplayCore
 {
     public bool IsReachedTargetScore = false;
+    public bool IsBackToMainMenu = false;
 
     private int _prevousTileValue;
     private int _activeTileValue;

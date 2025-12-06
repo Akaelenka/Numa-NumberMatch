@@ -7,6 +7,7 @@ public class PanelEM
     public static event Action OnStartGame;
     public static event Action OnContinueGame;
     public static event Action OnFinishGame;
+    public static event Action OnQuitGame;
     public static event Action OnTriggerToMainMenu;
 
     public static void ChangePanel(EPanelType panel)
@@ -27,6 +28,11 @@ public class PanelEM
     public static void FinishGame() 
     { 
         OnFinishGame?.Invoke(); 
+    }
+
+    public static void QuitGame()
+    {
+        OnQuitGame?.Invoke();
     }
 
     public static void TriggerToMainMenu() 
