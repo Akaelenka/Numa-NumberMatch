@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NumaModels;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class GameplayCore
     private List<int> _listDestroyQueue = new List<int>();
     private List<int> _listValue;
 
+    public EGameSelection GameSelection;
+
     public GameplayCore()
     {
         TileNewEM.OnSelectedTileIndex += OnSelectTileIndex;
@@ -21,6 +24,8 @@ public class GameplayCore
         TileNewEM.OnCallAddNewTiles += AddNewTiles;
 
         ScoreEM.OnReachTargetScore += OnReachTargetScore;
+
+        SaveEM.OnLoadDataResult += GenerateTiles;
     }
 
     public void ResetTiles()
@@ -28,23 +33,35 @@ public class GameplayCore
         IsReachedTargetScore = false;
         ResetActiveTile();
 
+        bool isSaving = GameSelection == EGameSelection.Start;
+
         TileNewEM.ResetTile();
-        ScoreEM.ResetScore();
+        ScoreEM.ResetScore(isSaving);
     }
 
     public void GenerateTiles(int totalTiles)
     {
         _listValue = new List<int>();
-        if (GameSettingsUtilities.IsTesting) // TODO: Change using #
+        _listValue.AddRange(CreateAndShuffleNewTiles(totalTiles));
+
+        TileNewEM.GenerateTileComponents(_listValue);
+
+        SaveData();
+    }
+
+    public void GenerateTiles(GameDataModel data)
+    {
+        _listValue = new List<int>();
+        if (data.TileData != null) 
         {
-            _listValue.AddRange(GameSettingsUtilities.GetTestValue());
+            _listValue.AddRange(data.TileData);
+
+            TileNewEM.GenerateTileComponents(_listValue);
         }
         else
         {
-            _listValue.AddRange(CreateAndShuffleNewTiles(totalTiles));
+            GenerateTiles(GameSettingsUtilities.TotalGeneratedTile);
         }
-
-        TileNewEM.GenerateTileComponents(_listValue);
     }
 
     public void AddNewTiles(int totalTiles)
@@ -68,19 +85,55 @@ public class GameplayCore
     {
         List<int> newTiles = new List<int>();
 
-        // Init to random half of total tiles
+
+        // TODO Move somewhere
+
+        // Easy
+        //// Init to random half of total tiles
+        //System.Random rnd = new System.Random();
+        //for (int i = 0; i < totalTiles / 2; i++)
+        //{
+        //    int value = rnd.Next(1, 10);
+        //    newTiles.Add(value);
+        //}
+
+        //// Duplicate and invert values to create pairs
+        //for (int i = 0; i < totalTiles / 2; i++)
+        //{
+        //    int value = rnd.Next(0, 2);
+        //    newTiles.Add(value == 0 ? newTiles[i] : 10 - newTiles[i]);
+        //}
+
+        // Hard
+        // Init to random quartz of total tiles
         System.Random rnd = new System.Random();
-        for (int i = 0; i < totalTiles / 2; i++)
+        for (int i = 0; i < totalTiles / 4; i++)
         {
             int value = rnd.Next(1, 10);
             newTiles.Add(value);
         }
 
         // Duplicate and invert values to create pairs
-        for (int i = 0; i < totalTiles / 2; i++)
+        for (int i = 0; i < totalTiles / 4; i++)
         {
             int value = rnd.Next(0, 2);
             newTiles.Add(value == 0 ? newTiles[i] : 10 - newTiles[i]);
+        }
+
+        // Random quartz
+        for (int i = 0; i < totalTiles / 4; i++)
+        {
+            int value = newTiles[i];
+            value = value > 9 ? 1 : value;
+
+            newTiles.Add(value);
+        }
+
+        // Random quartz
+        for (int i = 0; i < totalTiles / 4; i++)
+        {
+            int value = rnd.Next(1, 10);
+            newTiles.Add(value);
         }
 
         // Shuffle the list
@@ -101,12 +154,12 @@ public class GameplayCore
         int step = 0;
 
         // Horizontal (same row)
-        if (TableUtilities.GetRow(currTileIndex, columns) == TableUtilities.GetRow(prevTileIndex, columns))
+        if (TableHelper.GetRow(currTileIndex, columns) == TableHelper.GetRow(prevTileIndex, columns))
         {
             step = (prevTileIndex > currTileIndex) ? 1 : -1;
         }
         // Vertical (same column)
-        else if (TableUtilities.GetCol(currTileIndex, columns) == TableUtilities.GetCol(prevTileIndex, columns))
+        else if (TableHelper.GetCol(currTileIndex, columns) == TableHelper.GetCol(prevTileIndex, columns))
         {
             step = (prevTileIndex > currTileIndex) ? columns : -columns;
         }
@@ -121,7 +174,7 @@ public class GameplayCore
             step = (prevTileIndex > currTileIndex) ? (columns - 1) : -(columns - 1);
         }
         // Find different row
-        else if (Mathf.Abs(TableUtilities.GetRow(currTileIndex, columns) - TableUtilities.GetRow(prevTileIndex, columns)) == 1)
+        else if (Mathf.Abs(TableHelper.GetRow(currTileIndex, columns) - TableHelper.GetRow(prevTileIndex, columns)) == 1)
         {
             step = (prevTileIndex > currTileIndex) ? 1 : -1;
         }
@@ -169,6 +222,7 @@ public class GameplayCore
             _listDestroyQueue.Clear();
         }
 
+        SaveData();
         TileNewEM.FinishCheckMatchedTile();
     }
 
@@ -183,7 +237,7 @@ public class GameplayCore
     private void CheckAndRemoveRow(int startTile)
     {
         int columns = GameSettingsUtilities.TotalColumn;
-        int colIndex = TableUtilities.GetRow(startTile, columns);
+        int colIndex = TableHelper.GetRow(startTile, columns);
 
         int startColIndex = colIndex * columns;
 
@@ -203,6 +257,17 @@ public class GameplayCore
         {
             _listDestroyQueue.Add(startColIndex);
         }
+    }
+
+    private void SaveData()
+    {
+        var data = new GameDataModel();
+        data.TileData = new List<int>();
+        data.TileData.AddRange(_listValue);
+        data.CurrentScore = -1;
+        data.TargetScore = -1;
+
+        SaveEM.SaveData(data);
     }
 
     #region EventHandlers

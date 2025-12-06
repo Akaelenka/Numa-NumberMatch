@@ -14,8 +14,17 @@ public class PrepareGameState : GameplayState
         NextState = StateKey;
 
         Core.ResetTiles();
-        Core.GenerateTiles(GameSettingsUtilities.TotalGeneratedTile);
 
+        if (Core.GameSelection == EGameSelection.Start)
+        {
+            Core.GenerateTiles(GameSettingsUtilities.TotalGeneratedTile);
+        }
+        else if (Core.GameSelection == EGameSelection.Continue)
+        {
+            SaveEM.LoadData();
+        }
+
+        Core.GameSelection = EGameSelection.None;
         NextState = EGameplayState.SelectTile;
     }
 

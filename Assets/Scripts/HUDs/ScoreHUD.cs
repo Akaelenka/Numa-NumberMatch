@@ -23,23 +23,21 @@ public class ScoreHUD : MonoBehaviour
 
         ScoreEM.OnResetScore += ResetScore;
         ScoreEM.OnAddScore += AddScore;
+
+        SaveEM.OnLoadDataResult += LoadScore;
     }
 
-    private void ResetScore()
+    private void ResetScore(bool isSaving)
     {
         _currentTargetScore = GameSettingsUtilities.TotalScore;
         _currentScore = 0;
 
-        _targetCoreText.text = _currentTargetScore.ToString();
-        _scoreText.text = _currentScore.ToString();
+        SetProgression();
 
-        var progressionModel = new ProgressionComponentModel
+        if (isSaving)
         {
-            MinValue = 0,
-            MaxValue = _currentTargetScore,
-            CurrentValue = 0
-        };
-        _progressionComponent.SetProgression(progressionModel);
+            SaveScore();
+        }
     }
 
     private void AddScore(int value)
@@ -49,6 +47,7 @@ public class ScoreHUD : MonoBehaviour
 
         _progressionComponent.UpdateProgression(_currentScore);
 
+        SaveScore();
         CheckScore();
     }
 
@@ -58,5 +57,39 @@ public class ScoreHUD : MonoBehaviour
         {
             ScoreEM.ReachTargetScore();
         }
+    }
+
+    private void SaveScore()
+    {
+        var data = new GameDataModel();
+        data.CurrentScore = _currentScore;
+        data.TargetScore = _currentTargetScore;
+
+        SaveEM.SaveData(data);
+    }
+
+    private void LoadScore(GameDataModel data)
+    {
+        _currentTargetScore = data.TargetScore;
+        _currentScore = data.CurrentScore;
+
+        SetProgression();
+    }
+
+    private void SetProgression()
+    {
+        int targetScore = _currentTargetScore;
+        int currentScore = _currentScore;
+
+        _targetCoreText.text = targetScore.ToString();
+        _scoreText.text = currentScore.ToString();
+
+        var progressionModel = new ProgressionComponentModel
+        {
+            MinValue = 0,
+            MaxValue = targetScore,
+            CurrentValue = currentScore
+        };
+        _progressionComponent.SetProgression(progressionModel);
     }
 }

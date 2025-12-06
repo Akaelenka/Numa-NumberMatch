@@ -5,6 +5,7 @@ public class MainMenuPanelState : PanelState
     public MainMenuPanelState(EPanelType stateKey) : base(stateKey)
     {
         PanelEM.OnStartGame += ShowGameplay;
+        PanelEM.OnContinueGame += ShowGameplay;
     }
 
     public override void StartState()

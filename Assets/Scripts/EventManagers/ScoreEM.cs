@@ -2,13 +2,13 @@ using System;
 
 public class ScoreEM
 {
-    public static event Action OnResetScore;
+    public static event Action<bool> OnResetScore;
     public static event Action<int> OnAddScore;
     public static event Action OnReachTargetScore;
 
-    public static void ResetScore()
+    public static void ResetScore(bool isSaving)
     {
-        OnResetScore?.Invoke();
+        OnResetScore?.Invoke(isSaving);
     }
 
     public static void AddScore(int newScore)

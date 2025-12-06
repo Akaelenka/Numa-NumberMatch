@@ -5,6 +5,7 @@ public class PanelEM
 {
     public static event Action<EPanelType> OnChangePanel;
     public static event Action OnStartGame;
+    public static event Action OnContinueGame;
     public static event Action OnFinishGame;
     public static event Action OnTriggerToMainMenu;
 
@@ -16,6 +17,11 @@ public class PanelEM
     public static void StartGame()
     {
         OnStartGame?.Invoke();
+    }
+
+    public static void ContinueGame()
+    {
+        OnContinueGame?.Invoke();
     }
 
     public static void FinishGame() 

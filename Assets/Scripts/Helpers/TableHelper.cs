@@ -1,4 +1,4 @@
-public class TableUtilities
+public class TableHelper
 {
     public static int GetRow(int index, int columns)
     {

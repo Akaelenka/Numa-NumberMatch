@@ -8,6 +8,9 @@ public class IdleState : GameplayState
         Core = core;
 
         PanelEM.OnChangePanel += StartPrepareTheGame;
+
+        PanelEM.OnStartGame += StartNewGame;
+        PanelEM.OnContinueGame += StartContinueGame;
     }
 
     public override void StartState()
@@ -36,5 +39,15 @@ public class IdleState : GameplayState
         {
             NextState = EGameplayState.PrepareGame;
         }
+    }
+
+    private void StartNewGame()
+    {
+        Core.GameSelection = EGameSelection.Start;
+    }
+
+    private void StartContinueGame()
+    {
+        Core.GameSelection = EGameSelection.Continue;
     }
 }

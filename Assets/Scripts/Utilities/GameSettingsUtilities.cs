@@ -1,39 +1,19 @@
 using System.Collections.Generic;
+using UnityEngine;
 
-public class GameSettingsUtilities
+public static class GameSettingsUtilities
 {
-    private static bool _IsTesting = false;
-    private static int _totalColumn = 8;
-    private static int _totalGeneratedTile = 80;
-    private static int _totalAddedTile = 32;
-    private static int _totalStrikeScore = 10;
-    private static int _totalScore = 150;
+    public const bool IsTesting = false;
+    public const int TotalColumn = 8;
+    public const int TotalGeneratedTile = 80;
+    public const int TotalAddedTile = 32;
+    public const int TotalStrikeScore = 10;
+    public const int TotalScore = 150;
+    public static string _path = Application.persistentDataPath + "/GameData.numa";
 
-    public static bool IsTesting 
-    { 
-        get { return _IsTesting; }
-    }
-    public static int TotalColumn 
-    { 
-        get { return _totalColumn; }
-    }
-    public static int TotalGeneratedTile 
+    public static string Path
     {
-        get { return _totalGeneratedTile; }
-    }
-    public static int TotalAddedTile
-    {
-        get { return _totalAddedTile; }
-    }
-
-    public static int TotalStrikeScore
-    { 
-        get { return _totalStrikeScore; } 
-    }
-
-    public static int TotalScore
-    {
-        get { return _totalScore; }
+        get { return _path; } 
     }
 
     public static List<int> GetTestValue()
