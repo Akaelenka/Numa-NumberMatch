@@ -1,3 +1,4 @@
+using NumaModels;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -24,6 +25,8 @@ public class GameplayPanelHUD : MonoBehaviour
         TileNewEM.OnResetTile += ResetLimit;
         TileNewEM.OnCallAddNewTiles += ReduceLimit;
 
+        SaveEM.OnLoadDataResult += LoadLimit;
+
         _backButton.onClick.AddListener(BackToMainMenu);
     }
 
@@ -32,14 +35,23 @@ public class GameplayPanelHUD : MonoBehaviour
     {
         _limitAddTiles = LimitHardcode;
         _limitAddTilesText.text = _limitAddTiles.ToString();
-        
+
         CheckLimit();
     }
 
     private void ReduceLimit(int value)
     {
         _limitAddTiles--;
+        UpdateLimit();
+    }
+
+    private void UpdateLimit()
+    {
         _limitAddTilesText.text = _limitAddTiles.ToString();
+
+        var data = new GameDataModel();
+        data.HelpCount = _limitAddTiles;
+        SaveEM.SaveData(data);
 
         CheckLimit();
     }
@@ -54,6 +66,14 @@ public class GameplayPanelHUD : MonoBehaviour
         {
             _addTilesButton.interactable = true;
         }
+    }
+
+    private void LoadLimit(GameDataModel data)
+    {
+        _limitAddTiles = data.HelpCount;
+        _limitAddTilesText.text = data.HelpCount.ToString();
+
+        CheckLimit();
     }
 
     private void BackToMainMenu()

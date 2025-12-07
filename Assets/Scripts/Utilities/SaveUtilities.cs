@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -29,6 +28,18 @@ public static class SaveUtilities
         {
             UnityEngine.Debug.Log("Save file is not found on:" + GameSettingsUtilities.Path);
             return null;
+        }
+    }
+
+    public static void DeleteData()
+    {
+        if (File.Exists(GameSettingsUtilities.Path))
+        {
+            File.Delete(GameSettingsUtilities.Path);
+        }
+        else
+        {
+            UnityEngine.Debug.LogWarning($"Save file not found: {GameSettingsUtilities.Path}");
         }
     }
 }

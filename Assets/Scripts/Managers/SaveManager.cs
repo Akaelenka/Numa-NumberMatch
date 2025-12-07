@@ -15,6 +15,7 @@ public class SaveManager : MonoBehaviour
         _data = new GameDataModel();
 
         PanelEM.OnStartGame += ResetData;
+        PanelEM.OnFinishGame += DeleteData;
 
         SaveEM.OnSaveData += SaveData;
         SaveEM.OnLoadData += LoadData;
@@ -77,6 +78,10 @@ public class SaveManager : MonoBehaviour
         {
             _data.CurrentScore = data.CurrentScore;
         }
+        if (data.HelpCount >= 0)
+        {
+            _data.HelpCount = data.HelpCount;
+        }
         if (data.TileData != null)
         {
             _data.TileData = new List<int>();
@@ -84,5 +89,10 @@ public class SaveManager : MonoBehaviour
         }
 
         _saveQueue.Enqueue(_data);
+    }
+
+    private void DeleteData()
+    {
+
     }
 }

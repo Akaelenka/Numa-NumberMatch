@@ -265,8 +265,6 @@ public class GameplayCore
         var data = new GameDataModel();
         data.TileData = new List<int>();
         data.TileData.AddRange(_listValue);
-        data.CurrentScore = -1;
-        data.TargetScore = -1;
 
         SaveEM.SaveData(data);
     }
