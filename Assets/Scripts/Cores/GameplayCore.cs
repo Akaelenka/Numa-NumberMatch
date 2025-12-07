@@ -53,6 +53,13 @@ public class GameplayCore
     public void GenerateTiles(GameDataModel data)
     {
         _listValue = new List<int>();
+
+        if (data == null) 
+        {
+            GenerateTiles(GameSettingsUtilities.TotalGeneratedTile);
+            return;
+        }
+
         if (data.TileData != null) 
         {
             _listValue.AddRange(data.TileData);
