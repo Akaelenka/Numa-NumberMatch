@@ -17,7 +17,7 @@ public static class GameSettingsUtilities
     public const int TotalGeneratedTile = 80;
     public const int TotalAddedTile = 32;
     public const int TotalStrikeScore = 10;
-    public const int TotalScore = 150;
+    public const int TotalScore = 30;
     public static string _path = Application.persistentDataPath + "/GameData.numa";
 
     public static string Path

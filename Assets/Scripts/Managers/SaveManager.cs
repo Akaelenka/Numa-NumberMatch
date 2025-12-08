@@ -14,6 +14,7 @@ public class SaveManager : MonoBehaviour
     {
         _data = new GameDataModel();
 
+        PanelEM.OnChangePanel += CheckDataFile;
         PanelEM.OnStartGame += ResetData;
         PanelEM.OnFinishGame += DeleteData;
 
@@ -93,6 +94,15 @@ public class SaveManager : MonoBehaviour
 
     private void DeleteData()
     {
+        Debug.Log("Delete File");
+        SaveUtilities.DeleteData();
+    }
 
+    private void CheckDataFile(EPanelType state)
+    {
+        if (state == EPanelType.MainMenu)
+        {
+            SaveEM.IsDataExist(SaveUtilities.IsExist());
+        }
     }
 }

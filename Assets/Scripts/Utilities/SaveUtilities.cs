@@ -42,4 +42,9 @@ public static class SaveUtilities
             UnityEngine.Debug.LogWarning($"Save file not found: {GameSettingsUtilities.Path}");
         }
     }
+
+    public static bool IsExist()
+    {
+        return File.Exists(GameSettingsUtilities.Path);
+    }
 }

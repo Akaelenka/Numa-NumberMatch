@@ -1,5 +1,7 @@
 using UnityEngine.Assertions;
 using UnityEngine;
+using NumaModels;
+using Unity.VisualScripting;
 
 public class MainMenuPanelHUD : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class MainMenuPanelHUD : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(_mainMenuPanel, $"[{gameObject.name}] MainMenuPanel is not assigned.");
+
+        SaveEM.OnIsDataExist += SetContinueButtonEnable;
     }
 
     private void Start()
@@ -49,5 +53,10 @@ public class MainMenuPanelHUD : MonoBehaviour
     private void ContinueGame()
     {
         PanelEM.ContinueGame();
+    }
+
+    private void SetContinueButtonEnable(bool isEnable)
+    {
+        _continueButton.SetEnable(isEnable);
     }
 }
