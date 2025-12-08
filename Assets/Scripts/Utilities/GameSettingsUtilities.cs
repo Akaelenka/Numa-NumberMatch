@@ -3,6 +3,15 @@ using UnityEngine;
 
 public static class GameSettingsUtilities
 {
+    // TODO: Move this using unity scripting
+    public const string IosGameId = "6000024";
+    public const string AndroidGameId = "6000025";
+    public const bool IsAdTesting = true;
+    public const string AndroidAdBannerId = "Banner_Android";
+    public const string IosAdBannerId = "Banner_iOS";
+    public const string AndroidAdRewardedId = "Rewarded_Android";
+    public const string IosAdRewardedId = "Rewarded_iOS";
+
     public const bool IsTesting = false;
     public const int TotalColumn = 8;
     public const int TotalGeneratedTile = 80;
