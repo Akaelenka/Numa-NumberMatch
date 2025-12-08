@@ -70,8 +70,8 @@ public class GameplayPanelHUD : MonoBehaviour
 
     private void LoadLimit(GameDataModel data)
     {
-        _limitAddTiles = data.HelpCount;
-        _limitAddTilesText.text = data.HelpCount.ToString();
+        _limitAddTiles = data.HelpCount == -1 ? LimitHardcode : data.HelpCount;
+        _limitAddTilesText.text = _limitAddTiles.ToString();
 
         CheckLimit();
     }

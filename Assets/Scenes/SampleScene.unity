@@ -3038,6 +3038,7 @@ GameObject:
   - component: {fileID: 667583808}
   - component: {fileID: 667583809}
   - component: {fileID: 667583810}
+  - component: {fileID: 667583811}
   m_Layer: 0
   m_Name: Gameplay Manager
   m_TagString: Untagged
@@ -3096,6 +3097,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f712b8bb16718fe449a51ecfdcb6b5fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveManager
+--- !u!114 &667583811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667583805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b5ed9b26c484da4384ec1f0d088fab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AdsManager
 --- !u!1 &704332313
 GameObject:
   m_ObjectHideFlags: 0
