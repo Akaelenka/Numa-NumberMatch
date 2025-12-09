@@ -6,13 +6,15 @@ using NumaModels;
 public class SaveManager : MonoBehaviour
 {
     private GameDataModel _data;
-    private Queue<GameDataModel> _saveQueue = new Queue<GameDataModel>();
+    private PlayerDataModel _player;
+    private Queue<string> _saveQueue = new Queue<string>();
 
     private bool _isSaving = false;
 
     private void Awake()
     {
         _data = new GameDataModel();
+        _player = new PlayerDataModel();
 
         PanelEM.OnChangePanel += CheckDataFile;
         PanelEM.OnStartGame += ResetData;
@@ -20,6 +22,9 @@ public class SaveManager : MonoBehaviour
 
         SaveEM.OnSaveData += SaveData;
         SaveEM.OnLoadData += LoadData;
+
+        SaveEM.OnSavePlayerData += SavePlayerData;
+        SaveEM.OnLoadPlayerData += LoadPlayerData;
     }
 
     private void Update()
@@ -28,15 +33,24 @@ public class SaveManager : MonoBehaviour
         {
             _isSaving = true;
 
-            var data = _saveQueue.Dequeue();
-            var json = JsonConvert.SerializeObject(data);
-            SaveUtilities.SaveData(json);
+            var json = _saveQueue.Dequeue();
+
+            if (json.Contains("\"SaveType\":\"PlayerData\""))
+            {
+                SaveUtilities.SaveData(GameSettingsUtilities._playerPath, json);
+            }
+            else //if (json.Contains("\"SaveType\":\"GameData\""))
+            {
+                SaveUtilities.SaveData(GameSettingsUtilities._gamedataPath, json);
+            }
 
             Debug.Log("trying to save" + json);
 
             _isSaving = false;
         }
     }
+
+    #region Game Data
 
     private void ResetData()
     {
@@ -45,7 +59,7 @@ public class SaveManager : MonoBehaviour
 
     private void LoadData()
     {
-        string data = SaveUtilities.LoadData();
+        string data = SaveUtilities.LoadData(GameSettingsUtilities._gamedataPath);
 
         if (data != null)
         {
@@ -89,20 +103,64 @@ public class SaveManager : MonoBehaviour
             _data.TileData.AddRange(data.TileData);
         }
 
-        _saveQueue.Enqueue(_data);
+        var json = JsonConvert.SerializeObject(_data);
+        _saveQueue.Enqueue(json);
     }
 
     private void DeleteData()
     {
-        Debug.Log("Delete File");
-        SaveUtilities.DeleteData();
+        SaveUtilities.DeleteData(GameSettingsUtilities._gamedataPath);
     }
 
     private void CheckDataFile(EPanelType state)
     {
         if (state == EPanelType.MainMenu)
         {
-            SaveEM.IsDataExist(SaveUtilities.IsExist());
+            SaveEM.IsDataExist(SaveUtilities.IsExist(GameSettingsUtilities._gamedataPath));
         }
     }
+    #endregion
+
+    #region Player Data
+    private void SavePlayerData(PlayerDataModel data)
+    {
+        if (data == null)
+        {
+            return;
+        }
+
+        if (data.Username != null) 
+        {
+            _player.Username = data.Username;
+        }
+        if (data.ExpValue >= 0)
+        {
+            _player.ExpValue = data.ExpValue;
+        }
+
+        var json = JsonConvert.SerializeObject(_player);
+        _saveQueue.Enqueue(json);
+    }
+
+    private void LoadPlayerData()
+    {
+        string data = SaveUtilities.LoadData(GameSettingsUtilities._playerPath);
+
+        if (data != null)
+        {
+            Debug.Log(data);
+
+            _player = JsonConvert.DeserializeObject<PlayerDataModel>(data);
+
+            Debug.Log(JsonConvert.SerializeObject(_player, Formatting.Indented));
+
+            SaveEM.LoadPlayerDataResult(_player);
+        }
+
+        if (data == null)
+        {
+            SaveEM.LoadPlayerDataResult(null);
+        }
+    }
+    #endregion
 }

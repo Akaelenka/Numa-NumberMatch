@@ -6,6 +6,7 @@ public class LoadingPanelState : PanelState
     public LoadingPanelState(EPanelType stateKey) : base(stateKey)
     {
         LoadingEM.OnLoadingComplete += CompleteLoadingProgression;
+        PanelEM.OnStartIntro += StartIntro;
     }
 
     private int _currentProgression = 0;
@@ -16,6 +17,7 @@ public class LoadingPanelState : PanelState
         _currentProgression = 0;
 
         PanelEM.ChangePanel(EPanelType.Loading);
+        SaveEM.LoadPlayerData();
         LoadingEM.ResetProgression();
     }
 
@@ -39,5 +41,10 @@ public class LoadingPanelState : PanelState
     private void CompleteLoadingProgression()
     {
         NextState = EPanelType.MainMenu;
+    }
+
+    private void StartIntro()
+    {
+        NextState = EPanelType.Introduction;
     }
 }

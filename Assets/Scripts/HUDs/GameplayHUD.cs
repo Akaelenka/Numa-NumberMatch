@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
 
-public class GameplayNewHUD : MonoBehaviour
+public class GameplayHUD : MonoBehaviour
 {
     [SerializeField]
     private ScrollRect _gameScrollView;

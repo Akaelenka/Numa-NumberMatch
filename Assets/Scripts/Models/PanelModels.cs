@@ -8,6 +8,8 @@ namespace NumaModels
         Loading,
         MainMenu,
         Gameplay,
+        Introduction,
+        Tutorial,
         Pause,
         EndGame
     }

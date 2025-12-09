@@ -18,13 +18,14 @@ public static class GameSettingsUtilities
     public const int TotalAddedTile = 32;
     public const int TotalStrikeScore = 10;
     public const int TotalScore = 30;
-    public static string _path = Application.persistentDataPath + "/GameData.numa";
+    public static string _gamedataPath = Application.persistentDataPath + "/GameData.numa";
+    public static string _playerPath = Application.persistentDataPath + "/Player.numa";
 
     public const int MaxLoading = 100;
 
     public static string Path
     {
-        get { return _path; } 
+        get { return _gamedataPath; } 
     }
 
     public static List<int> GetTestValue()

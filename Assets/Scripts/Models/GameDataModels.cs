@@ -6,6 +6,7 @@ namespace NumaModels
     [Serializable]
     public class GameDataModel
     {
+        public string SaveType { get; set; } = "GameData";
         public List<int> TileData { get; set; }
         public int TargetScore { get; set; } = -1;
         public int CurrentScore { get; set; } = -1;

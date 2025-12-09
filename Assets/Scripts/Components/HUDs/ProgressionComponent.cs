@@ -28,6 +28,14 @@ public class ProgressionComponent : MonoBehaviour
     //    GetProgression();
     //}
 
+    public void ResetProgression(int maxValue)
+    {
+        _currentValue = 0;
+        _minValue = 0;
+        _maxValue = maxValue;
+        GetProgression();
+    }
+
     public void SetProgression(ProgressionComponentModel progressionValue)
     {
         _minValue = progressionValue.MinValue;

@@ -14,6 +14,10 @@ public class PanelHUD : MonoBehaviour
     [SerializeField]
     private GameObject GameplayPanel;
     [SerializeField]
+    private GameObject IntroPanel;
+    [SerializeField]
+    private GameObject TutorialPanel;
+    [SerializeField]
     private GameObject PausePanel;
     [SerializeField]
     private GameObject EndGamePanel;
@@ -28,6 +32,8 @@ public class PanelHUD : MonoBehaviour
         Assert.IsNotNull(LoadingPanel, $"[{gameObject.name}] LoadingPanel is not assigned.");
         Assert.IsNotNull(MainMenuPanel, $"[{gameObject.name}] MainMenuPanel is not assigned.");
         Assert.IsNotNull(GameplayPanel, $"[{gameObject.name}] GameplayPanel is not assigned.");
+        Assert.IsNotNull(IntroPanel, $"[{gameObject.name}] IntroPanel is not assigned.");
+        Assert.IsNotNull(TutorialPanel, $"[{gameObject.name}] TutorialPanel is not assigned.");
         Assert.IsNotNull(PausePanel, $"[{gameObject.name}] PausePanel is not assigned.");
         Assert.IsNotNull(EndGamePanel, $"[{gameObject.name}] EndGamePanel is not assigned.");
 
@@ -37,6 +43,8 @@ public class PanelHUD : MonoBehaviour
             LoadingPanel,
             MainMenuPanel,
             GameplayPanel,
+            IntroPanel,
+            TutorialPanel,
             PausePanel,
             EndGamePanel
         };
@@ -64,6 +72,12 @@ public class PanelHUD : MonoBehaviour
 
         switch (panelType) 
         {
+            case EPanelType.Introduction:
+                IntroPanel.SetActive(true);
+                break;
+            case EPanelType.Tutorial:
+                TutorialPanel.SetActive(true);
+                break;
             case EPanelType.Welcome:
                 WelcomePanel.SetActive(true);
                 break;

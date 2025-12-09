@@ -3,21 +3,21 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveUtilities
 {
-    public static void SaveData(string json)
+    public static void SaveData(string path, string json)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(GameSettingsUtilities.Path, FileMode.Create);
+        FileStream stream = new FileStream(path, FileMode.Create);
 
         formatter.Serialize(stream, json);
         stream.Close();
     }
 
-    public static string LoadData()
+    public static string LoadData(string path)
     {
-        if (File.Exists(GameSettingsUtilities.Path))
+        if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(GameSettingsUtilities.Path, FileMode.Open);
+            FileStream stream = new FileStream(path, FileMode.Open);
 
             string data = formatter.Deserialize(stream) as string;
             stream.Close();
@@ -26,25 +26,25 @@ public static class SaveUtilities
         }
         else
         {
-            UnityEngine.Debug.Log("Save file is not found on:" + GameSettingsUtilities.Path);
+            UnityEngine.Debug.Log("Save file is not found on:" + path);
             return null;
         }
     }
 
-    public static void DeleteData()
+    public static void DeleteData(string path)
     {
-        if (File.Exists(GameSettingsUtilities.Path))
+        if (File.Exists(path))
         {
-            File.Delete(GameSettingsUtilities.Path);
+            File.Delete(path);
         }
         else
         {
-            UnityEngine.Debug.LogWarning($"Save file not found: {GameSettingsUtilities.Path}");
+            UnityEngine.Debug.LogWarning($"Save file not found: {path}");
         }
     }
 
-    public static bool IsExist()
+    public static bool IsExist(string path)
     {
-        return File.Exists(GameSettingsUtilities.Path);
+        return File.Exists(path);
     }
 }

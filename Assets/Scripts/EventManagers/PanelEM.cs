@@ -4,6 +4,8 @@ using NumaModels;
 public class PanelEM
 {
     public static event Action<EPanelType> OnChangePanel;
+    public static event Action OnStartIntro;
+    public static event Action OnStartTutorial;
     public static event Action OnStartGame;
     public static event Action OnContinueGame;
     public static event Action OnFinishGame;
@@ -13,6 +15,16 @@ public class PanelEM
     public static void ChangePanel(EPanelType panel)
     {
         OnChangePanel?.Invoke(panel);
+    }
+
+    public static void StartIntro()
+    {
+        OnStartIntro?.Invoke();
+    }
+
+    public static void StartTutorial()
+    {
+        OnStartTutorial?.Invoke();
     }
 
     public static void StartGame()

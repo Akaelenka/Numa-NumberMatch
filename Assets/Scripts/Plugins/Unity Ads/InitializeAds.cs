@@ -15,7 +15,7 @@ public class InitializeAds : IUnityAdsInitializationListener
         _gameId = GameSettingsUtilities.AndroidGameId;
 #endif
 
-        if (!Advertisement.isInitialized && Advertisement.isSupported)
+        if (!   Advertisement.isInitialized && Advertisement.isSupported)
         {
             Advertisement.Initialize(_gameId, GameSettingsUtilities.IsAdTesting, this);
         }

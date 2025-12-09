@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NumaModels
 {
-    [CreateAssetMenu(fileName = "QuoteDB", menuName = "ScriptableObjects/Numa/QuoteDB")]
+    [CreateAssetMenu(fileName = "QuoteDB", menuName = "Scriptable Objects/Numa/QuoteDB")]
     public class QuoteModel : ScriptableObject
     {
         public string Name;
