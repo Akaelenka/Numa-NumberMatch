@@ -4,6 +4,7 @@ public class AdvertismentEM
 {
     public static event Action OnShowBannerAds;
     public static event Action OnHideBannerAds;
+    public static event Action OnInitAdvertismentDone;
 
     public static void ShowBannerAds()
     {
@@ -13,5 +14,10 @@ public class AdvertismentEM
     public static void HideBannerAds()
     {
         OnHideBannerAds?.Invoke();
+    }
+
+    public static void SetInitAdvertismentDone()
+    {
+        OnInitAdvertismentDone?.Invoke();
     }
 }

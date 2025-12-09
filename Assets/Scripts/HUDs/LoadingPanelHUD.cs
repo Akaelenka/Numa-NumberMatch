@@ -7,7 +7,8 @@ public class LoadingPanelHUD : MonoBehaviour
     [SerializeField]
     private ProgressionComponent _loadingProgression;
 
-    private int MaxLoadingValue = 150;
+    private int _maxLoadingValue = GameSettingsUtilities.MaxLoading;
+    private bool _adsReady = false;
 
     private void Awake()
     {
@@ -15,6 +16,8 @@ public class LoadingPanelHUD : MonoBehaviour
 
         LoadingEM.OnResetProgression += ResetProgression;
         LoadingEM.OnUpdateProgression += UpdateProgression;
+
+        AdvertismentEM.OnInitAdvertismentDone += SetAdReady;
     }
 
     private void ResetProgression()
@@ -23,7 +26,7 @@ public class LoadingPanelHUD : MonoBehaviour
         {
             CurrentValue = 0,
             MinValue = 0,
-            MaxValue = MaxLoadingValue
+            MaxValue = _maxLoadingValue
         };
 
         _loadingProgression.SetProgression(progressionComponent);
@@ -33,9 +36,14 @@ public class LoadingPanelHUD : MonoBehaviour
     {
         _loadingProgression.UpdateProgression(value);
 
-        if (value >= MaxLoadingValue) 
+        if (value >= _maxLoadingValue && _adsReady) 
         {
             LoadingEM.LoadingComplete();
         }
+    }
+
+    private void SetAdReady()
+    {
+        _adsReady = true;
     }
 }

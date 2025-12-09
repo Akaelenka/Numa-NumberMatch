@@ -20,6 +20,8 @@ public static class GameSettingsUtilities
     public const int TotalScore = 30;
     public static string _path = Application.persistentDataPath + "/GameData.numa";
 
+    public const int MaxLoading = 100;
+
     public static string Path
     {
         get { return _path; } 
