@@ -86,6 +86,7 @@ public class GameplayCore
 
         _listValue.AddRange(addedList);
 
+        SaveData();
         TileNewEM.AddTileComponents(addedList);
     }
 

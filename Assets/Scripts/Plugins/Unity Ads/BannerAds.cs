@@ -12,6 +12,8 @@ public class BannerAds
         _adUnitId = GameSettingsUtilities.AndroidAdBannerId;
 #elif UNITY_IOS
         _adUnitId = GameSettingsUtilities.IosAdBannerId;
+#else
+        _adUnitId = GameSettingsUtilities.AndroidAdBannerId;
 #endif
 
         Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);

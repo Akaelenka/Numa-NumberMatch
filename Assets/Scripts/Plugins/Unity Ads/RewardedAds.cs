@@ -11,6 +11,8 @@ public class RewardedAds : IUnityAdsLoadListener, IUnityAdsShowListener
         _adUnitId = GameSettingsUtilities.AndroidAdRewardedId;
 #elif UNITY_IOS
         _adUnitId = GameSettingsUtilities.IosAdRewardedId;
+#else
+        _adUnitId = GameSettingsUtilities.AndroidAdRewardedId;
 #endif
     }
 
