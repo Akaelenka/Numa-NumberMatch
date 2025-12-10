@@ -35,7 +35,7 @@ public class PrepareGameState : GameplayState
 
     public override void FinishState()
     {
-        AdvertismentEM.ShowBannerAds();
+        AdvertisementEM.ShowBannerAds();
     }
 
     public override EGameplayState GetNextState() 

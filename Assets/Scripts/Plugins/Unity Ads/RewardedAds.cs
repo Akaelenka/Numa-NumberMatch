@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
 public class RewardedAds : IUnityAdsLoadListener, IUnityAdsShowListener
 {
     private string _adUnitId;
+
+    public event Action OnRewardedAdsCompleted;
 
     public RewardedAds()
     {
@@ -54,6 +57,7 @@ public class RewardedAds : IUnityAdsLoadListener, IUnityAdsShowListener
     {
         if (placementId == _adUnitId && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED)) 
         {
+            OnRewardedAdsCompleted?.Invoke();
             Debug.Log("Completed");
         }
     }

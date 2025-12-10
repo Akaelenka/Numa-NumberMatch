@@ -19,7 +19,7 @@ public class LoadingPanelHUD : MonoBehaviour
         LoadingEM.OnResetProgression += ResetProgression;
         LoadingEM.OnUpdateProgression += UpdateProgression;
 
-        AdvertismentEM.OnInitAdvertismentDone += SetAdReady;
+        AdvertisementEM.OnInitAdvertismentDone += SetAdReady;
 
         SaveEM.OnLoadPlayerDataResult += SetPlayerDataReady;
     }

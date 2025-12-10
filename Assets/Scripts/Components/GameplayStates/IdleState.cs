@@ -18,7 +18,7 @@ public class IdleState : GameplayState
         Debug.Log("IdleState StartState");
         NextState = StateKey;
 
-        AdvertismentEM.HideBannerAds();
+        AdvertisementEM.HideBannerAds();
     }
 
     public override void UpdateState()

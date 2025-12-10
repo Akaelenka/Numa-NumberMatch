@@ -24,7 +24,7 @@ public class InitializeAds : IUnityAdsInitializationListener
     public void OnInitializationComplete()
     {
         Debug.Log("[InitializeAds] Ads Initialized");
-        AdvertismentEM.SetInitAdvertismentDone();
+        AdvertisementEM.SetInitAdvertismentDone();
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)

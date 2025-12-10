@@ -27,6 +27,9 @@ public class HeaderPanelHUD : MonoBehaviour
         Assert.IsNotNull(_expProgression, $"[{gameObject.name}] ExpProgression is not assigned.");
 
         SaveEM.OnLoadPlayerDataResult += LoadProgression;
+
+        PanelEM.OnTriggerToMainMenu += GainExp;
+        AdvertisementEM.OnRewardedAdsCompleted += GainExp;
     }
 
     //private void ResetProgression()
@@ -35,6 +38,25 @@ public class HeaderPanelHUD : MonoBehaviour
 
     //    _expProgression.ResetProgression(maxProgression);
     //}
+
+    private void GainExp()
+    {
+        var expBonus = GameSettingsUtilities.ExpGain;
+        _expValue += expBonus;
+
+        CalculateLevel();
+        SaveData();
+    }
+
+    private void SaveData()
+    {
+        var data = new PlayerDataModel()
+        {
+            Username = _usernameText.text,
+            ExpValue = _expValue,
+        };
+        SaveEM.SavePlayerData(data);
+    }
 
     private void LoadProgression(PlayerDataModel data)
     {

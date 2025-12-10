@@ -13,8 +13,35 @@ public class AdsManager : MonoBehaviour
         _bannerAds = new BannerAds();
         _rewardedAds = new RewardedAds();
 
-        AdvertismentEM.OnHideBannerAds += HideBannerAds;
-        AdvertismentEM.OnShowBannerAds += ShowBannerAds;
+        _rewardedAds.OnRewardedAdsCompleted += CompleteRewardedAds;
+
+        AdvertisementEM.OnInitAdvertismentDone += LoadRewardedAds;
+        AdvertisementEM.OnInitAdvertismentDone += LoadBannerAds;
+
+        AdvertisementEM.OnShowRewardedAds += ShowRewardedAds;
+        AdvertisementEM.OnHideBannerAds += HideBannerAds;
+        AdvertisementEM.OnShowBannerAds += ShowBannerAds;
+    }
+
+    private void CompleteRewardedAds()
+    {
+        AdvertisementEM.CompleteRewardedAds();
+    }
+
+    private void LoadRewardedAds()
+    {
+        _rewardedAds.LoadRewardedAd();
+    }
+
+    private void ShowRewardedAds()
+    {
+        _rewardedAds.ShowRewardedAd();
+        LoadRewardedAds();
+    }
+
+    private void LoadBannerAds()
+    {
+        _bannerAds.LoadBannerAd();
     }
 
     private void ShowBannerAds()

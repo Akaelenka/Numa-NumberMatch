@@ -23,6 +23,8 @@ public static class GameSettingsUtilities
 
     public const int MaxLoading = 100;
 
+    public const int ExpGain = 100;
+
     public static string Path
     {
         get { return _gamedataPath; } 
