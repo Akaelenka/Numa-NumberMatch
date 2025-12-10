@@ -71,6 +71,12 @@ public class TileComponent : MonoBehaviour
     {
         return _isEnable;
     }
+
+    public void SetActiveTile(bool isActive)
+    {
+        _tileButton.interactable = isActive;
+        _isEnable = isActive;
+    }
     
     public void DisableTile() 
     {

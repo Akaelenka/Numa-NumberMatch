@@ -6,6 +6,7 @@ public class TutorialPanelState : PanelState
 {
     public TutorialPanelState(EPanelType stateKey) : base(stateKey)
     {
+        PanelEM.OnTutorialDone += GoToNextState;
     }
 
     public override void StartState()
@@ -25,5 +26,10 @@ public class TutorialPanelState : PanelState
     public override EPanelType GetNextState()
     {
         return NextState;
+    }
+
+    private void GoToNextState() 
+    {
+        NextState = EPanelType.MainMenu;
     }
 }
