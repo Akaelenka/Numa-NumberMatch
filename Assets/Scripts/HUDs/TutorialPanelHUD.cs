@@ -22,6 +22,13 @@ public class TutorialPanelHUD : MonoBehaviour
     [SerializeField]
     private GameObject _tilePrefab;
 
+    [SerializeField]
+    private Button _nextButton;
+    [SerializeField]
+    private TMP_Text _tutorialText;
+    [SerializeField]
+    private QuoteModel[] _quoteList;
+
     private List<TileComponent> _tileList;
     private List<int> _tileActiveList;
     private int[,] _tutoriaTile;
@@ -38,6 +45,9 @@ public class TutorialPanelHUD : MonoBehaviour
         _tileActiveList = new List<int>();
         _tutoriaTile = new int[,]        
         {
+            {-2, -2, 0}, // Show tutorial
+            {-2, -2, 0}, // Show tutorial
+            {-2, -2, 0}, // Show tutorial
             {0, 8, 1},
             {4, 5, 1},
             {2, 9, 1},
@@ -45,11 +55,13 @@ public class TutorialPanelHUD : MonoBehaviour
             {3, 12, 1},
             {1, 6, 5},
             {7, 10, 3},
-            {11, 13, 2}
+            {11, 13, 2},
+            {-2, -2, 0}
         };
 
         PanelEM.OnChangePanel += StartTutorial;
-
+        
+        _nextButton.onClick.AddListener(NextTutorial);
         _addButton.onClick.AddListener(AddButton);
         _addButton.interactable = false;
 
@@ -72,11 +84,6 @@ public class TutorialPanelHUD : MonoBehaviour
             _tileActiveList.Clear();
 
             EnableTwoTile();
-        }
-
-        if (_currentScore >= _targetScore) 
-        {
-            PanelEM.FinishTutorial(); // TODO: Create Congratulation
         }
     }
 
@@ -103,6 +110,19 @@ public class TutorialPanelHUD : MonoBehaviour
         _addButton.interactable = false;
         _addCountText.text = 0.ToString();
 
+        EnableTwoTile();
+    }
+
+    private void NextTutorial()
+    {
+        if (_currentScore>= _targetScore)
+        {
+            // End tutorial
+            PanelEM.FinishTutorial();
+            return;
+        }
+
+        _nextButton.interactable = false;
         EnableTwoTile();
     }
 
@@ -160,12 +180,22 @@ public class TutorialPanelHUD : MonoBehaviour
         int indexB = _tutoriaTile[_currentStep, 1];
         _nextAddedScore = _tutoriaTile[_currentStep, 2];
 
+        _tutorialText.text = _quoteList[_currentStep].Quote;
+
         if (indexA == -1 || indexB == -1)
         {
             _addButton.interactable = true;
         }
         else 
         {
+            if (indexA == -2 || indexB == -2)
+            {
+                _nextButton.interactable= true;
+                _currentStep++;
+
+                return;
+            }
+
             _tileList[indexA].SetActiveTile(true);
             _tileList[indexB].SetActiveTile(true);
         }
